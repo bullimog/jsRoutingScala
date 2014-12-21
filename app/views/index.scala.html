@@ -1,0 +1,56 @@
+@(loginForm: Form[models.LoginModel])(implicit request:Request[_], lang: Lang)
+@import play.api.data.format.Formats._
+@import helper._
+
+
+@main("Welcome to Play") {
+
+
+
+  @helper.inputText(
+    loginForm("username"),
+    '_label -> "Username",
+    'onBlur->"isEmailExist()",
+    '_help -> "Enter a user name."
+  )
+
+  @helper.inputText(
+    loginForm("password"),
+    '_label -> "Password",
+    '_help -> "Enter a password."
+  )
+
+}
+
+<script type="text/javascript">
+var successFn = function(data) {
+if(data == "true"){
+$('#alert-box').html('');
+$("#alert-box").append('<div>' + '<a data-dismiss="alert">×</a>  ' +
+'<strong>Error!</strong>Email Id Already exist ! '+ '</div>');
+}
+else{
+$('#alert-box').html('');
+$("#alert-box").append('<div>' + '<a data-dismiss="alert">×</a>  ' +
+'<strong>Success!</strong>Valid Email Id ! '+ '</div>');
+}
+console.debug("Success of Ajax Call");
+console.debug(data);
+};
+
+var errorFn = function(err) {
+console.debug("Error of ajax Call");
+console.debug(err);
+}
+
+ajax1 = {
+success: successFn,
+error: errorFn
+}
+
+function isEmailExist() {
+    var idToGet = $("#username").val();
+    jsRoutes.controllers.Application.isEmailExist(idToGet).ajax(ajax1);
+
+}
+</script>
