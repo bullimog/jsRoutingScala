@@ -10,7 +10,7 @@
   @helper.inputText(
     loginForm("username"),
     '_label -> "Username",
-    'onBlur->"isEmailExist()",
+    'onBlur->"usernameValid()",
     '_help -> "Enter a user name."
   )
 
@@ -24,18 +24,9 @@
 
 <script type="text/javascript">
 var successFn = function(data) {
-if(data == "true"){
-$('#alert-box').html('');
-$("#alert-box").append('<div>' + '<a data-dismiss="alert">×</a>  ' +
-'<strong>Error!</strong>Email Id Already exist ! '+ '</div>');
-}
-else{
-$('#alert-box').html('');
-$("#alert-box").append('<div>' + '<a data-dismiss="alert">×</a>  ' +
-'<strong>Success!</strong>Valid Email Id ! '+ '</div>');
-}
-console.debug("Success of Ajax Call");
-console.debug(data);
+    alert("Message returned from server: " +data);
+    console.debug("Success of Ajax Call");
+    console.debug(data);
 };
 
 var errorFn = function(err) {
@@ -48,9 +39,9 @@ success: successFn,
 error: errorFn
 }
 
-function isEmailExist() {
-    var idToGet = $("#username").val();
-    jsRoutes.controllers.Application.isEmailExist(idToGet).ajax(ajax1);
+function usernameValid() {
+    var username = $("#username").val();
+    jsRoutes.controllers.Application.usernameValid(username).ajax(ajax1);
 
 }
 </script>
